@@ -1,0 +1,9 @@
+{
+  "uuid": "sakaleyn@ensignalp",
+  "name": "Sakaleyn",
+  "description": "Prayer times (Diyanet) in the top bar: next prayer with countdown, a configurable reminder before each prayer (45 minutes by default), the adhan at prayer time, Friday and Ramadan (suhoor/iftar) reminders. Location is detected automatically.\n\nIMPORTANT: this extension only displays data. It requires the separately installed `sakaleyn` service (D-Bus: io.github.ensignalp.Sakaleyn), which plays the sounds and sends notifications.\n\nTürkçe: Ezan vakitleri üst panelde; vakitten önce uyarı ve vaktinde ezan. Ayrı kurulan `sakaleyn` servisi gerekir.",
+  "shell-version": ["48", "49", "50"],
+  "settings-schema": "org.gnome.shell.extensions.sakaleyn",
+  "url": "https://github.com/ensignalp/sakaleyn",
+  "version-name": "0.1.0"
+}

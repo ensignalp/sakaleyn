@@ -1,0 +1,15 @@
+[Desktop Entry]
+Type=Application
+Name=Sakaleyn
+GenericName=Prayer Times
+GenericName[tr]=Ezan Vakitleri
+Comment=Prayer times, reminders and adhan (Diyanet)
+Comment[tr]=Ezan vakitleri, vakit öncesi uyarı ve ezan (Diyanet)
+Exec=@BINDIR@/sakaleyn settings
+Icon=sakaleyn
+Terminal=false
+Categories=Utility;
+Keywords=prayer;adhan;azan;namaz;ezan;vakit;diyanet;
+# GeoClue bu dosyayla uygulamayı tanır (konum izni penceresinde ad ve simge).
+X-Geoclue-Reason=Finds the nearest Diyanet district for prayer times
+X-Geoclue-Reason[tr]=Ezan vakitleri için en yakın Diyanet ilçesini bulur

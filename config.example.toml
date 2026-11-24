@@ -1,0 +1,80 @@
+# Sakaleyn yapılandırması: ~/.config/sakaleyn/config.toml
+# Her alan isteğe bağlıdır; burada yazanlar varsayılan değerlerdir.
+# Ayarlar penceresi (GNOME: eklenti tercihleri, diğerleri: `sakaleyn settings`)
+# bu dosyayı yazar; elle değiştirdiyseniz servisi yeniden başlatın:
+#   systemctl --user restart sakaleyn
+#
+# Vakit anahtarları: imsak, gunes, ogle, ikindi, aksam, yatsi
+
+# "tr", "en" ya da "auto" (sistem dili)
+language = "tr"
+
+# Ana anahtar (GNOME Hızlı Ayarlar kutucuğu): false iken hiçbir uyarı, ezan
+# ya da bildirim gelmez; vakitler panelde görünmeye devam eder.
+enabled = true
+
+[location]
+# "auto": GeoClue ile en yakın Diyanet ilçesi (konum hiçbir yere gönderilmez)
+# "manual": aşağıdaki ilçe (`sakaleyn city search <ad>` ile kimliği bulun)
+mode = "auto"
+# district_id = 9541   # İstanbul
+
+[alerts]
+# Vakitten önce uyarı
+enabled = true
+minutes = 45            # 1–180
+vakits = ["imsak", "ogle", "ikindi", "aksam", "yatsi"]
+sound = "nur"           # nur | seher | damla | hilal | uyandirma | none | user:<dosya>
+volume = 0.6            # 0.0–1.0
+play_in_dnd = false     # Rahatsız Etmeyin açıkken de ses çal
+snooze_minutes = 5
+
+# Vakit başına farklı süre
+# [alerts.per_vakit]
+# imsak = 60
+# ogle = 15
+
+[adhan]
+enabled = true
+# Ezan okunacak vakitler; diğerlerinde yalnızca bildirim gelir
+vakits = ["imsak", "ogle", "ikindi", "aksam", "yatsi"]
+volume = 0.85
+pause_media = true      # ezan boyunca Spotify/tarayıcı/VLC duraklatılır
+play_in_dnd = true
+
+[adhan.sounds]
+imsak = "alafasy-fajr"
+ogle = "cosar-ussak"
+ikindi = "cosar-rast"
+aksam = "kabe"
+yatsi = "kassas-medine"
+# kendi sesiniz: ~/.local/share/sakaleyn/sounds/ klasörüne koyup
+# ogle = "user:benim-ezanim.mp3"
+
+[friday]
+enabled = true
+minutes = 60            # öğleden kaç dakika önce
+sound = "senol-ogle"    # Cuma öğle ezanı ("" = normal öğle sesi)
+
+[ramadan]
+enabled = true          # hicri takvimden otomatik
+sahur_minutes = 45      # imsaktan kaç dakika önce (0 kapalı)
+sahur_sound = "uyandirma"
+
+[sunrise]
+alert = false           # güneş doğmadan (sabah namazı vakti çıkmadan) uyar
+minutes = 30
+
+[kerahat]
+enabled = false
+
+[end_reminder]
+enabled = false         # "Kıldım" denmediyse vakit çıkmadan hatırlat
+minutes = 20
+
+[religious_days]
+enabled = true          # kandil ve bayramlarda bildirim
+
+# Diyanet vakitlerine eklenecek dakika (±60); genelde gerekmez
+# [offsets]
+# ogle = 1

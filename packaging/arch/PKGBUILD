@@ -1,0 +1,38 @@
+# Maintainer: Muhammed Alparslan <ensignalp at users dot noreply dot github dot com>
+pkgname=sakaleyn
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Prayer times with reminders and adhan for Linux (Diyanet); GNOME extension and tray icon"
+arch=('x86_64' 'aarch64')
+url="https://github.com/ensignalp/sakaleyn"
+license=('MIT')
+depends=('gcc-libs' 'glibc' 'geoclue')
+optdepends=('pipewire: audio playback via pw-play'
+            'gnome-shell: top bar extension'
+            'gjs: settings window'
+            'libadwaita: settings window')
+makedepends=('cargo')
+source=("$pkgname-$pkgver.tar.gz::$url/archive/v$pkgver.tar.gz")
+sha256sums=('SKIP')
+
+prepare() {
+    cd "$pkgname-$pkgver"
+    export RUSTUP_TOOLCHAIN=stable
+    cargo fetch --locked --target "$(rustc -vV | sed -n 's/host: //p')"
+}
+
+build() {
+    cd "$pkgname-$pkgver"
+    export RUSTUP_TOOLCHAIN=stable CARGO_TARGET_DIR=target
+    cargo build --frozen --release
+}
+
+check() {
+    cd "$pkgname-$pkgver"
+    cargo test --frozen --release
+}
+
+package() {
+    cd "$pkgname-$pkgver"
+    scripts/stage.sh "$pkgdir" target/release/sakaleyn /usr
+}

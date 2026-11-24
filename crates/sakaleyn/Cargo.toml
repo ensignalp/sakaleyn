@@ -1,0 +1,28 @@
+[package]
+name = "sakaleyn"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Sakaleyn: ezan vakti servisi, CLI ve tepsi simgesi"
+
+[dependencies]
+chrono = "0.4.45"
+chrono-tz = "0.10"
+clap = { version = "4.6.7", features = ["derive"] }
+env_logger = "0.11.11"
+libc = "0.2.191"
+log = "0.4.35"
+sakaleyn-core = { path = "../sakaleyn-core" }
+serde = { version = "1.0.229", features = ["derive"] }
+serde_json = "1.0.154"
+tokio = { version = "1.54.1", features = ["rt-multi-thread", "macros", "signal", "time", "sync", "process", "fs"] }
+zbus = { version = "6.2.1", default-features = false, features = ["tokio", "service", "proxy"] }
+ksni = { version = "0.3.7", optional = true }
+
+[features]
+default = ["tray"]
+# `sakaleyn tray`: KDE / XFCE / Cinnamon / MATE (StatusNotifierItem) tepsi simgesi.
+tray = ["dep:ksni"]
+
+[dev-dependencies]
+tempfile = "3.27.0"

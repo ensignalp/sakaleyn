@@ -1,0 +1,10 @@
+/target
+/dist
+*.shell-extension.zip
+schemas/gschemas.compiled
+# Ses dosyaları: scripts/prepare-sounds.sh üretir; telif nedeniyle depoya girmez.
+/assets/sounds/adhan/*.ogg
+/assets/sounds/alerts/uyandirma.ogg
+
+# Yerel planlama notları (iç klasör/proje adları içerir)
+/docs/PLAN.md

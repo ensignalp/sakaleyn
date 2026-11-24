@@ -1,0 +1,34 @@
+# Her push ve pull request'te: Rust testleri + clippy, kabuk betikleri ve eklentinin
+# JavaScript sözdizimi. Sürüm paketleri (ezan kayıtlarıyla) yerelde `make static dist`
+# ile üretilip elle yayınlanır; kayıtlar depoda olmadığı için CI'da üretilmez.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy
+      - uses: Swatinem/rust-cache@v2
+      - name: Test
+        run: cargo test --locked
+      - name: Clippy
+        run: cargo clippy --locked --all-targets -- -D warnings
+      - name: Kabuk betikleri
+        run: |
+          sudo apt-get install -y -qq shellcheck >/dev/null
+          sh -n install.sh
+          shellcheck -S error install.sh scripts/*.sh
+      - name: Eklenti (JS sözdizimi, GSettings şeması)
+        run: |
+          for f in gnome-extension/sakaleyn@ensignalp/*.js gnome-extension/sakaleyn@ensignalp/lib/*.js settings-app/main.js; do
+            node --check --input-type=module < "$f"
+          done
+          glib-compile-schemas --strict --dry-run gnome-extension/sakaleyn@ensignalp/schemas

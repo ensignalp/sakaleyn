@@ -1,0 +1,4 @@
+[D-BUS Service]
+Name=io.github.ensignalp.Sakaleyn
+Exec=@BINDIR@/sakaleyn daemon
+SystemdService=sakaleyn.service

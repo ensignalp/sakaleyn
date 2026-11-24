@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Sakaleyn
+Comment=Prayer times in the system tray
+Exec=@BINDIR@/sakaleyn tray
+Icon=sakaleyn
+Terminal=false
+X-GNOME-Autostart-enabled=false
+OnlyShowIn=KDE;XFCE;X-Cinnamon;MATE;Budgie;LXQt;

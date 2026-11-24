@@ -1,0 +1,16 @@
+[Unit]
+Description=Sakaleyn - prayer times, reminders and adhan
+Documentation=https://github.com/ensignalp/sakaleyn
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=io.github.ensignalp.Sakaleyn
+ExecStart=@BINDIR@/sakaleyn daemon
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+
+[Install]
+WantedBy=graphical-session.target

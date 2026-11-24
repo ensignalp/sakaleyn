@@ -1,0 +1,14 @@
+[
+  {"id": "alafasy-fajr", "kind": "adhan", "title": "Mişari Raşid el-Afasi · Sabah (Hicaz)", "title_en": "Mishary Alafasy · Fajr (Hijaz)"},
+  {"id": "cosar-ussak", "kind": "adhan", "title": "İsmail Coşar · Öğle (Uşşak)", "title_en": "İsmail Coşar · Dhuhr (Ushshaq)"},
+  {"id": "cosar-rast", "kind": "adhan", "title": "İsmail Coşar · İkindi (Rast)", "title_en": "İsmail Coşar · Asr (Rast)"},
+  {"id": "kabe", "kind": "adhan", "title": "Kâbe ezanı", "title_en": "Kaaba adhan"},
+  {"id": "kassas-medine", "kind": "adhan", "title": "Muhammed Mervan Kassas · Mescid-i Nebevi", "title_en": "Muhammad Marwan Qassas · Masjid an-Nabawi"},
+  {"id": "senol-ogle", "kind": "adhan", "title": "Hafız Şenol · Öğle", "title_en": "Hafiz Şenol · Dhuhr"},
+  {"id": "qatami", "kind": "adhan", "title": "Nasser el-Katami", "title_en": "Nasser al-Qatami"},
+  {"id": "nur", "kind": "alert", "title": "Nur · yumuşak çan", "title_en": "Nur · soft bell"},
+  {"id": "seher", "kind": "alert", "title": "Seher · yükselen akor", "title_en": "Seher · rising chord"},
+  {"id": "damla", "kind": "alert", "title": "Damla · su damlası (en sessiz)", "title_en": "Damla · water drops (quietest)"},
+  {"id": "hilal", "kind": "alert", "title": "Hilal · iki tonlu zil", "title_en": "Hilal · two-tone chime"},
+  {"id": "uyandirma", "kind": "alert", "title": "Uyandırma · Esselâtü hayrun minen nevm", "title_en": "Wake-up · As-salatu khayrun min an-nawm"}
+]

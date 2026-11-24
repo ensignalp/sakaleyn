@@ -1,0 +1,119 @@
+/* Sakaleyn: logo renkleri yeşil #176A52, krem #ECEECC. */
+
+/* ---------- üst panel ---------- */
+.sakaleyn-panel {
+  spacing: 5px;
+  padding: 0 4px;
+  border-radius: 99px;
+}
+/* tema `system-status-icon` yerine: dolgu ve kenar boşluğu yok */
+.sakaleyn-panel-icon { icon-size: 16px; padding: 0; margin: 0; }
+.sakaleyn-panel-label { font-feature-settings: "tnum"; }
+/* süre: eşit genişlikli rakamlar + en küçük genişlik; "9:59" → "10:00" kaydırmaz */
+.sakaleyn-panel-time { font-feature-settings: "tnum"; min-width: 2.4em; }
+
+/* ön uyarı süresine girildi: kalın yazı + ince yeşil çerçeve */
+.sakaleyn-phase-soon { box-shadow: inset 0 0 0 1px rgba(42, 157, 120, 0.9); padding: 0 8px; }
+.sakaleyn-phase-soon .sakaleyn-panel-label { font-weight: bold; }
+/* son 10 dakika: yeşil kapsül */
+.sakaleyn-phase-imminent {
+  background-color: #176A52;
+  color: #ECEECC;
+  padding: 0 8px;
+}
+.sakaleyn-phase-imminent .sakaleyn-panel-label { color: #ECEECC; font-weight: bold; }
+/* ezan okunuyor */
+.sakaleyn-phase-adhan {
+  background-color: #1f8a6a;
+  color: #ffffff;
+  padding: 0 8px;
+}
+.sakaleyn-muted-today .sakaleyn-panel-icon { opacity: 0.55; }
+
+/* ---------- açılır pencere ---------- */
+.sakaleyn-menu .popup-menu-content { padding: 0; }
+.sakaleyn-menu-item { padding: 0; }
+
+.sakaleyn-popup {
+  width: 340px;
+  padding: 14px 16px 12px;
+  spacing: 10px;
+}
+
+.sakaleyn-head { spacing: 12px; }
+.sakaleyn-logo { border-radius: 9px; }
+.sakaleyn-logo-button { border-radius: 11px; padding: 2px; }
+.sakaleyn-logo-button:hover { background-color: rgba(127, 127, 127, 0.2); }
+.sakaleyn-logo-button:focus { box-shadow: inset 0 0 0 2px rgba(42, 157, 120, 0.8); }
+.sakaleyn-place { spacing: 4px; }
+.sakaleyn-place-icon { color: #2a9d78; }
+.sakaleyn-district { font-weight: bold; font-size: 1.1em; }
+.sakaleyn-dates { spacing: 6px; }
+.sakaleyn-date { font-size: 0.85em; }
+.sakaleyn-muted { opacity: 0.6; }
+
+/* yarım daire göstergesi (popup.js çizer ve metne göre boyutlar); metin dairenin
+   iç boşluğunda ortalı, arka plan yok */
+.sakaleyn-countdown { padding: 6px 0 4px; }
+.sakaleyn-gauge-texts { spacing: 0; }
+.sakaleyn-caption { font-size: 0.95em; text-align: center; }
+.sakaleyn-big {
+  font-size: 2.3em;
+  font-weight: 800;
+  font-feature-settings: "tnum";
+}
+.sakaleyn-sub { font-size: 0.85em; text-align: center; }
+
+.sakaleyn-list { spacing: 2px; }
+.sakaleyn-row {
+  border: 1px solid transparent;
+  padding: 5px 8px;
+  border-radius: 9px;
+  spacing: 6px;
+}
+.sakaleyn-row-name { font-size: 1em; }
+.sakaleyn-row-time { font-feature-settings: "tnum"; font-weight: bold; padding-right: 6px; }
+.sakaleyn-past { opacity: 0.5; }
+/* şimdiki vakit: dolgulu yeşil kart; sıradaki: yeşil çerçeve */
+.sakaleyn-current { background-color: rgba(23, 106, 82, 0.45); }
+.sakaleyn-next .sakaleyn-row-time { color: #2a9d78; }
+.sakaleyn-next { border: 1px solid rgba(42, 157, 120, 0.6); }
+
+.sakaleyn-icon-button {
+  padding: 4px;
+  border-radius: 99px;
+}
+.sakaleyn-icon-button:hover { background-color: rgba(127, 127, 127, 0.2); }
+.sakaleyn-icon-button:focus { box-shadow: inset 0 0 0 2px rgba(42, 157, 120, 0.8); }
+.sakaleyn-off { opacity: 0.4; }
+.sakaleyn-prayed { opacity: 0.35; }
+.sakaleyn-done { color: #2a9d78; opacity: 1; }
+
+.sakaleyn-notice {
+  font-size: 0.85em;
+  color: #d4930d;
+}
+.sakaleyn-notice-button { padding: 2px 4px; border-radius: 8px; }
+.sakaleyn-notice-action .sakaleyn-notice { text-decoration: underline; }
+.sakaleyn-notice-action:hover { background-color: rgba(212, 147, 13, 0.15); }
+.sakaleyn-religious { font-size: 0.88em; text-align: center; }
+
+.sakaleyn-actions { spacing: 6px; }
+.sakaleyn-button { padding: 6px 8px; border-radius: 10px; font-size: 0.9em; }
+.sakaleyn-stop { background-color: #176A52; color: #ECEECC; }
+
+/* ---------- tarih penceresi ---------- */
+.sakaleyn-datemenu { padding: 10px 12px; }
+.sakaleyn-dm-box { spacing: 8px; }
+.sakaleyn-dm-head { spacing: 5px; }
+.sakaleyn-dm-next { font-size: 0.9em; opacity: 0.8; padding-right: 6px; }
+.sakaleyn-dm-left { font-weight: bold; color: #2a9d78; font-feature-settings: "tnum"; min-width: 2.4em; text-align: right; }
+.sakaleyn-dm-grid { spacing: 1px; }
+.sakaleyn-dm-cell { padding: 4px 0; border-radius: 8px; border: 1px solid transparent; }
+.sakaleyn-dm-name { font-size: 0.72em; opacity: 0.7; }
+.sakaleyn-dm-time { font-feature-settings: "tnum"; font-weight: bold; font-size: 0.85em; }
+.sakaleyn-dm-cell.sakaleyn-past { opacity: 0.5; }
+.sakaleyn-dm-cell.sakaleyn-current { background-color: rgba(23, 106, 82, 0.55); }
+.sakaleyn-dm-cell.sakaleyn-next { border: 1px solid rgba(42, 157, 120, 0.7); }
+.sakaleyn-dm-track { height: 3px; border-radius: 2px; background-color: rgba(127, 127, 127, 0.25); }
+.sakaleyn-dm-fill { height: 3px; border-radius: 2px; background-color: #2a9d78; }
