@@ -41,6 +41,7 @@ const T = {
     prayed: ['Kıldım', 'Prayed'],
     adhan_on: ['Ezan açık', 'Adhan on'],
     adhan_off: ['Ezan kapalı', 'Adhan off'],
+    sunrise_no_adhan: ['Güneş vaktinde namaz ve ezan yok', 'No prayer or adhan at sunrise'],
     playing_adhan: ['Ezan okunuyor', 'Adhan playing'],
     in_days: ['gün sonra', 'days'],
     today_word: ['bugün', 'today'],

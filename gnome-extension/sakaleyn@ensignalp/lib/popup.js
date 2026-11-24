@@ -35,9 +35,13 @@ function label(text, styleClass = '', props = {}) {
     return new St.Label({text: String(text ?? ''), style_class: styleClass, y_align: Clutter.ActorAlign.CENTER, ...props});
 }
 
+// Simge saydamlıkları (St CSS `opacity` desteklemez; aktörün opacity değeri kullanılır)
+const DIM_PASSIVE = 60; // güneş: yer tutan, tıklanamaz simgeler
+const DIM_IDLE = 100; // kılınmadı işareti, kapalı ezan zili
+
 /** Düğmeyi yerini koruyarak gizler/gösterir (satırdaki hizayı bozmaz). */
-function setSlotVisible(button, on) {
-    button.opacity = on ? 255 : 0;
+function setSlotVisible(button, on, opacity = 255) {
+    button.opacity = on ? opacity : 0;
     button.reactive = on;
     button.can_focus = on;
 }
@@ -151,18 +155,22 @@ export class SakaleynPopup {
             const time = label('--:--', 'sakaleyn-row-time');
             row.add_child(name);
             row.add_child(time);
-            // Her satırda aynı iki düğme yuvası: güneşte (ezan yok) görünmez düğmeler yer
-            // tutar, "kıldım" henüz geçmemiş vakitte gizlenmez saydamlaşır; saatler hizalı kalır.
+            // Her satırda aynı iki düğme yuvası; saatler hizalı kalır. Güneşte (namaz ve ezan
+            // yok) iki simge görünür ama pasiftir; "kıldım" henüz geçmemiş vakitte saydamlaşır.
             const isAdhan = ADHAN_VAKITS.includes(v);
             const prayed = iconButton('object-select-symbolic', 'sakaleyn-prayed', () => ctx.actions.prayed(v));
             const bell = iconButton('audio-volume-high-symbolic', 'sakaleyn-bell', () => ctx.actions.toggleAdhan(v));
             if (!isAdhan) {
-                for (const b of [prayed, bell])
-                    setSlotVisible(b, false);
+                for (const b of [prayed, bell]) {
+                    b.reactive = false;
+                    b.can_focus = false;
+                    b.opacity = DIM_PASSIVE;
+                }
             }
             row.add_child(prayed);
             row.add_child(bell);
-            this._rows[v] = {row, name, time, bell: isAdhan ? bell : null, prayed: isAdhan ? prayed : null};
+            this._rows[v] = {row, name, time, bell: isAdhan ? bell : null, prayed: isAdhan ? prayed : null,
+                passive: isAdhan ? [] : [prayed, bell]};
             this._list.add_child(row);
         }
         this.actor.add_child(this._list);
@@ -328,13 +336,15 @@ export class SakaleynPopup {
                 const on = Boolean(state.adhan?.[v]);
                 r.bell.child.icon_name = on ? 'audio-volume-high-symbolic' : 'audio-volume-muted-symbolic';
                 r.bell.accessible_name = on ? s.t('adhan_on') : s.t('adhan_off');
-                r.bell.style_class = `sakaleyn-icon-button sakaleyn-bell${on ? '' : ' sakaleyn-off'}`;
+                r.bell.opacity = on ? 255 : DIM_IDLE;
             }
+            for (const b of r.passive)
+                b.accessible_name = s.t('sunrise_no_adhan');
             if (r.prayed) {
                 const done = (state.prayed ?? []).includes(v);
-                setSlotVisible(r.prayed, Boolean(passed));
+                setSlotVisible(r.prayed, Boolean(passed), done ? 255 : DIM_IDLE);
                 r.prayed.accessible_name = s.t('prayed');
-                r.prayed.style_class = `sakaleyn-icon-button sakaleyn-prayed${done ? ' sakaleyn-done' : ''}`;
+                r.prayed.style_class = `sakaleyn-icon-button${done ? ' sakaleyn-done' : ''}`;
             }
         }
 

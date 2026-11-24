@@ -85,9 +85,8 @@
 }
 .sakaleyn-icon-button:hover { background-color: rgba(127, 127, 127, 0.2); }
 .sakaleyn-icon-button:focus { box-shadow: inset 0 0 0 2px rgba(42, 157, 120, 0.8); }
-.sakaleyn-off { opacity: 0.4; }
-.sakaleyn-prayed { opacity: 0.35; }
-.sakaleyn-done { color: #2a9d78; opacity: 1; }
+/* kılındı işareti; diğer simge saydamlıkları popup.js'te (St CSS opacity desteklemez) */
+.sakaleyn-done { color: #2a9d78; }
 
 .sakaleyn-notice {
   font-size: 0.85em;
