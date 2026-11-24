@@ -1,7 +1,7 @@
 #!/bin/sh
 # Sürüm paketleri (GitHub release):
-#   dist/sakaleyn-<mimari>-linux.tar.gz  statik ikili + install.sh + veri + eklenti + sesler
-#   dist/sakaleyn-sounds.tar.gz          ezan kayıtları (kaynaktan derleyen mimariler için)
+#   dist/sakaleyn-<mimari>-linux.tar.gz  statik ikili + install.sh + veri + eklenti + uyarı sesleri
+#   dist/sakaleyn-sounds.tar.gz          ezan kayıtları (install.sh ayrıca indirir; ana paket küçük kalır)
 #
 #   scripts/dist-tarball.sh <statik-ikili> <mimari: x86_64|aarch64> <sürüm>
 # Ezan kayıtları depoda yoktur (.gitignore); önce `make sounds` ile hazırlanmalıdır.
@@ -17,8 +17,10 @@ cp -r packaging gnome-extension settings-app "$d/"
 rm -f "$d/gnome-extension/sakaleyn@ensignalp/schemas/gschemas.compiled"
 cp install.sh README.md LICENSE config.example.toml "$d/"
 cp scripts/enable-extension.sh "$d/scripts/"
-n=$(find "$d/assets/sounds/adhan" -name '*.ogg' | wc -l)
-[ "$n" -gt 0 ] || echo "uyarı: ezan sesi yok (make sounds)" >&2
+# kayıtlar ana pakete girmez, ayrı ses paketine girer
+rm -f "$d"/assets/sounds/adhan/*.ogg "$d/assets/sounds/alerts/uyandirma.ogg"
+n=$(find assets/sounds/adhan -name '*.ogg' | wc -l)
+[ "$n" -gt 0 ] || { echo "hata: ezan sesi yok (önce: make sounds)" >&2; exit 1; }
 tar -C "$root" -czf "dist/sakaleyn-${arch}-linux.tar.gz" "$name"
 (cd assets/sounds && tar -czf ../../dist/sakaleyn-sounds.tar.gz adhan/*.ogg alerts/uyandirma.ogg)
 rm -rf "$root"

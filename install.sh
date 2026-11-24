@@ -56,7 +56,14 @@ warn() { printf '\033[1;33m!!\033[0m %s\n' "$*" >&2; }
 die() { printf '\033[1;31mhata:\033[0m %s\n' "$*" >&2; exit 1; }
 have() { command -v "$1" >/dev/null 2>&1; }
 has_systemd() { have systemctl && systemctl --user show-environment >/dev/null 2>&1; }
-is_gnome() { have gnome-shell || case "${XDG_CURRENT_DESKTOP:-}" in *GNOME*) true ;; *) false ;; esac; }
+# Masaüstü biliniyorsa ona, bilinmiyorsa (ör. ssh) gnome-shell kurulu mu ona bakılır.
+is_gnome() {
+    case "${XDG_CURRENT_DESKTOP:-}" in
+        *GNOME*) true ;;
+        "") have gnome-shell ;;
+        *) false ;;
+    esac
+}
 
 [ "$(id -u)" != 0 ] || die "Sakaleyn kullanıcı başına kurulur; sudo olmadan çalıştırın."
 
@@ -91,7 +98,15 @@ download() { # url hedef
     else die "curl ya da wget gerekli."; fi
 }
 
+# Sürüm dosyalarının adresi ($SAKALEYN_RELEASE_BASE ile ayna/yerel klasör verilebilir).
+release_base() {
+    if [ -n "${SAKALEYN_RELEASE_BASE:-}" ]; then echo "$SAKALEYN_RELEASE_BASE"
+    elif [ -n "$VERSION" ]; then echo "https://github.com/${REPO}/releases/download/v${VERSION}"
+    else echo "https://github.com/${REPO}/releases/latest/download"; fi
+}
+
 SRC=""
+SOUNDS_EXTRA=""
 HERE="$(cd "$(dirname "$0")" 2>/dev/null && pwd || true)"
 if [ -n "$HERE" ] && [ -d "$HERE/gnome-extension/$UUID" ] && [ -f "$HERE/assets/sounds/sounds.json" ]; then
     SRC="$HERE" # depo ya da açılmış sürüm arşivi
@@ -105,8 +120,7 @@ if [ -z "$SRC" ] || [ -z "$BIN" ]; then
         *) arch="" ;;
     esac
     TMP="$(mktemp -d)"
-    if [ -n "$VERSION" ]; then base="https://github.com/${REPO}/releases/download/v${VERSION}"
-    else base="https://github.com/${REPO}/releases/latest/download"; fi
+    base="$(release_base)"
     if [ -n "$arch" ]; then
         say "Sakaleyn indiriliyor (${VERSION:-son sürüm}, $arch)…"
         download "${base}/sakaleyn-${arch}-linux.tar.gz" "$TMP/sakaleyn.tar.gz" ||
@@ -123,14 +137,22 @@ if [ -z "$SRC" ] || [ -z "$BIN" ]; then
         (cd "$TMP/src" && cargo build --release --locked)
         SRC="$TMP/src"
         BIN="$SRC/target/release/sakaleyn"
-        if download "${base}/sakaleyn-sounds.tar.gz" "$TMP/sounds.tar.gz"; then
-            tar -xzf "$TMP/sounds.tar.gz" -C "$SRC/assets/sounds"
-        else
-            warn "ezan sesleri indirilemedi; uyarı sesleri ve bildirimler çalışır."
-        fi
     fi
 fi
 [ -x "$BIN" ] || die "ikili bulunamadı: $BIN"
+
+# Ezan kayıtları ayrı pakettedir (ana paket küçük kalsın); yoksa indirilir.
+if ! ls "$SRC"/assets/sounds/adhan/*.ogg >/dev/null 2>&1; then
+    [ -n "$TMP" ] || TMP="$(mktemp -d)"
+    base="$(release_base)"
+    say "Ezan sesleri indiriliyor (~19 MB)…"
+    if download "${base}/sakaleyn-sounds.tar.gz" "$TMP/sounds.tar.gz"; then
+        mkdir -p "$TMP/sounds" && tar -xzf "$TMP/sounds.tar.gz" -C "$TMP/sounds"
+        SOUNDS_EXTRA="$TMP/sounds"
+    else
+        warn "ezan sesleri indirilemedi; uyarı sesleri ve bildirimler çalışır. Sonra yeniden çalıştırabilirsiniz."
+    fi
+fi
 
 # ------------------------------------------------------------------ kurulum
 say "Kuruluyor: $BINDIR/sakaleyn"
@@ -147,8 +169,10 @@ rm -rf "$SHARE/sounds"
 mkdir -p "$SHARE/sounds/adhan" "$SHARE/sounds/alerts"
 cp "$SRC/assets/sounds/sounds.json" "$SHARE/sounds/"
 n_adhan=0
-for f in "$SRC"/assets/sounds/adhan/*.ogg; do [ -f "$f" ] && cp "$f" "$SHARE/sounds/adhan/" && n_adhan=$((n_adhan + 1)); done
-for f in "$SRC"/assets/sounds/alerts/*.ogg; do [ -f "$f" ] && cp "$f" "$SHARE/sounds/alerts/"; done
+for dir in "$SRC/assets/sounds" ${SOUNDS_EXTRA:+"$SOUNDS_EXTRA"}; do
+    for f in "$dir"/adhan/*.ogg; do [ -f "$f" ] && cp "$f" "$SHARE/sounds/adhan/" && n_adhan=$((n_adhan + 1)); done
+    for f in "$dir"/alerts/*.ogg; do [ -f "$f" ] && cp "$f" "$SHARE/sounds/alerts/"; done
+done
 
 # simgeler
 L="$SRC/assets/logo"
